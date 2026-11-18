@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LiveBid — Bid Live, Win Big</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:'Plus Jakarta Sans',system-ui;color:#111;background:#f8f8f8}
+header{background:#111;color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:20}
+.logo{font-size:24px;font-weight:900;cursor:pointer}.logo b{color:#ffcc00}
+nav{display:flex;gap:6px;overflow:auto}nav button{background:transparent;color:#ddd;border:0;padding:9px 13px;border-radius:999px;font-weight:700;cursor:pointer;white-space:nowrap}nav button.active{background:#ffcc00;color:#111}
+button{background:#ffcc00;border:0;padding:11px 18px;border-radius:999px;font-weight:800;cursor:pointer}button.ghost{background:#fff;border:1px solid #ddd;color:#111}
+input,textarea,select{width:100%;padding:13px;border-radius:14px;border:1px solid #e5e5e5;background:#fff;margin:7px 0;font-size:15px}
+.wrap{max-width:1150px;margin:auto;padding:16px}.page{display:none}.page.active{display:block}
+.hero{border-radius:26px;overflow:hidden;position:relative;color:#fff;min-height:340px;display:flex;align-items:flex-end;background:url('https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1400&q=80') center/cover}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 60%)}
+.hero>div{position:relative;z-index:2;padding:26px}.hero h1{font-size:38px;line-height:1;margin:8px 0}.hero h1 span{color:#ffcc00}
+.pill{background:#ffcc00;color:#111;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.card img{width:100%;height:200px;object-fit:cover}.card .in{padding:14px}
+.price{font-size:21px;font-weight:900}.muted{color:#777;font-size:13px}
+.timer{background:#fff1f1;color:#e11d48;padding:6px 10px;border-radius:999px;font-weight:700;font-size:13px;display:inline-block}
+.box{background:#fff;padding:20px;border-radius:22px;margin:16px 0;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.cats{display:flex;gap:8px;overflow:auto;padding:10px 0}.cats button{background:#fff;border:1px solid #eee}.cats button.active{background:#111;color:#fff}
+.bidRow{display:flex;gap:8px;margin-top:12px}.bidRow input{margin:0}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:14px}.feature div{background:#fff;padding:18px;border-radius:18px}
+.feature img{width:100%;height:160px;object-fit:cover;border-radius:14px}
+@media(max-width:600px){.hero h1{font-size:30px}.feature{grid-template-columns:1fr}nav{max-width:55vw}}
+</style>
+</head>
+<body>
+<header>
+<div class="logo" onclick="go('home')">Live<b>Bid</b> 🔥</div>
+<nav><button class="active" onclick="go('home',this)">Home</button><button onclick="go('auctions',this)">Auctions</button><button onclick="go('sell',this)">Sell</button><button onclick="go('mybids',this)">My Bids</button><button onclick="go('how',this)">How It Works</button></nav>
+<div id="authBtns"><button onclick="showAuth()">Login / Sign Up</button></div>
+</header>
+<div class="wrap">
+<div id="page-home" class="page active">
+<div class="hero"><div><span class="pill">● 2,418 bidding now in Lagos • Works Offline</span><h1>Bid Live.<br><span>Win Big.</span><br>Pay Less.</h1><p>Phones, sneakers, PS5, cars — real auctions, real winners.</p><button onclick="go('auctions')">🔥 Browse Live Auctions →</button> <button class="ghost" onclick="go('sell')">+ Sell Your Item</button></div></div>
+<div class="box" style="display:flex;justify-content:space-between;gap:10px;text-align:center"><div><b style="font-size:22px" id="totalAuctions">0</b><br><span class="muted">Live Now</span></div><div><b style="font-size:22px">₦12.4M</b><br><span class="muted">Won This Week</span></div><div><b style="font-size:22px">4.9 ⭐</b><br><span class="muted">Rating</span></div></div>
+<h2>🔥 Trending Now</h2><div id="list-home" class="grid"></div>
+<h2 style="margin-top:24px">Shop by Category</h2>
+<div class="feature">
+<div onclick="go('auctions')"><img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800"><h3>📱 Phones</h3><p class="muted">iPhone, Samsung, Pixel — up to 60% off</p></div>
+<div onclick="go('auctions')"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800"><h3>👟 Sneakers</h3><p class="muted">Nike, Jordan, Adidas — rare drops</p></div>
+<div onclick="go('auctions')"><img src="https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800"><h3>🎮 Gaming</h3><p class="muted">PS5, Xbox, Controllers</p></div>
+<div onclick="go('auctions')"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800"><h3>🚗 Cars</h3><p class="muted">Tokunbo deals, verified sellers</p></div>
+</div>
+</div>
+<div id="page-auctions" class="page">
+<h1>🔥 All Live Auctions</h1>
+<div style="display:flex;gap:8px"><input id="search" placeholder="🔍 Search iPhone, PS5, Nike..." oninput="loadAuctions()"><button onclick="loadAuctions()">Search</button></div>
+<div class="cats"><button class="active" onclick="filterCat('All',this)">All</button><button onclick="filterCat('Phones',this)">📱 Phones</button><button onclick="filterCat('Sneakers',this)">👟 Sneakers</button><button onclick="filterCat('Gaming',this)">🎮 Gaming</button><button onclick="filterCat('Fashion',this)">👗 Fashion</button><button onclick="filterCat('Cars',this)">🚗 Cars</button></div>
+<div id="list" class="grid"></div>
+</div>
+<div id="page-sell" class="page">
+<div class="box"><h1>🎯 Sell Your Item</h1><p class="muted">List in 30 seconds. No fee to list.</p>
+<input id="title" placeholder="e.g iPhone 13 Pro - Neatly Used"><textarea id="desc" placeholder="Condition? Why are you selling?"></textarea><input id="img" placeholder="Image link - paste Unsplash / Jumia link">
+<div style="display:flex;gap:8px"><input id="price" type="number" placeholder="Starting Price ₦ e.g 50000"><select id="cat"><option>Phones</option><option>Sneakers</option><option>Gaming</option><option>Fashion</option><option>Cars</option><option>Others</option></select></div>
+<button onclick="createAuction()" style="width:100%;padding:15px;font-size:16px">Create Auction → Go Live 🚀</button><p id="createMsg"></p></div>
+</div>
+<div id="page-mybids" class="page"><h1>💰 My Bids</h1><div id="mybids-list" class="grid"></div></div>
+<div id="page-how" class="page"><div class="box"><h1>How LiveBid Works</h1><p><b>1. Create Account</b> — Sign up free with Name + Email<br><b>2. Find Item</b> — Browse live auctions<br><b>3. Place Bid</b> — Bid higher than current price<br><b>4. Win</b> — When timer ends, highest bidder wins!<br><b>5. Pay & Collect</b> — Seller go contact you on WhatsApp</p><button onclick="go('auctions')">Start Bidding Now →</button></div></div>
+<div class="box" id="authBox" style="display:none">
+<h2>Welcome to LiveBid 👋</h2><p class="muted">Create account — e go work instantly, no internet server needed.</p>
+<input id="name" placeholder="Your Name e.g Tobi"><input id="email" placeholder="Email or Phone Number"><input id="password" type="password" placeholder="Password (any 4+ characters)">
+<div style="display:flex;gap:8px"><button onclick="signUp()" style="flex:1">Create Account</button><button onclick="signIn()" class="ghost" style="flex:1">Login</button></div><p id="authMsg"></p>
+</div>
+</div>
+<script>
+let curCat='All';
+let user=JSON.parse(localStorage.getItem('livebid_user')||'null');
+let auctions=JSON.parse(localStorage.getItem('livebid_auctions')||'null') || [
+{id:'1',title:"iPhone 13 Pro - Neatly Used",description:"Battery 89%, follow come charger",image_url:"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800",current_price:75000,cat:'Phones',end_time:new Date(Date.now()+48*3600000).toISOString()},
+{id:'2',title:"Nike Air Jordan 1 - Size 43",description:"Brand new, never worn",image_url:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800",current_price:42000,cat:'Sneakers',end_time:new Date(Date.now()+30*3600000).toISOString()},
+{id:'3',title:"PS5 Console + 2 Controllers",description:"UK used, 1TB, with 3 games",image_url:"https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=800",current_price:310000,cat:'Gaming',end_time:new Date(Date.now()+72*3600000).toISOString()},
+{id:'4',title:"Samsung Galaxy S23 Ultra",description:"Neatly used, 256GB",image_url:"https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800",current_price:455000,cat:'Phones',end_time:new Date(Date.now()+24*3600000).toISOString()},
+{id:'5',title:"Toyota Camry 2018 - Tokunbo",description:"First body, AC chilling",image_url:"https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=800",current_price:8500000,cat:'Cars',end_time:new Date(Date.now()+96*3600000).toISOString()},
+{id:'6',title:"Dior Bag - Original",description:"With receipt, barely used",image_url:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800",current_price:120000,cat:'Fashion',end_time:new Date(Date.now()+20*3600000).toISOString()},
+];
+let myBids=JSON.parse(localStorage.getItem('livebid_mybids')||'[]');
+function save(){localStorage.setItem('livebid_auctions',JSON.stringify(auctions));localStorage.setItem('livebid_mybids',JSON.stringify(myBids));localStorage.setItem('livebid_user',JSON.stringify(user));}
+function updateHeader(){ if(user) document.getElementById('authBtns').innerHTML=`<span style="font-size:13px">${user.name} 👋</span> <button onclick="logout()">Logout</button>`; }
+function go(page,btn){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');if(btn){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active')}window.scrollTo({top:0,behavior:'smooth'});if(page==='mybids') loadMyBids();if(page==='auctions'||page==='home') loadAuctions();}
+function showAuth(){document.getElementById('authBox').style.display='block';window.scrollTo({top:0,behavior:'smooth'})}
+function signUp(){
+let n=document.getElementById('name').value.trim(), e=document.getElementById('email').value.trim(), p=document.getElementById('password').value.trim();
+if(!n||!e||p.length<4) return document.getElementById('authMsg').innerText="Fill Name, Email/Phone, and password (4+ chars)";
+let users=JSON.parse(localStorage.getItem('livebid_users')||'[]');
+if(users.find(u=>u.email===e)) return document.getElementById('authMsg').innerText="Account don exist already, click Login";
+let nu={name:n,email:e,password:p,id:'u'+Date.now()}; users.push(nu); localStorage.setItem('livebid_users',JSON.stringify(users));
+user=nu; save(); updateHeader(); document.getElementById('authBox').style.display='none'; alert("✅ Account created! Welcome "+n);
+}
+function signIn(){
+let e=document.getElementById('email').value.trim(), p=document.getElementById('password').value.trim();
+let users=JSON.parse(localStorage.getItem('livebid_users')||'[]');
+let f=users.find(u=>u.email===e && u.password===p);
+if(f){user=f;save();updateHeader();document.getElementById('authBox').style.display='none';alert("Welcome back "+f.name);return;}
+document.getElementById('authMsg').innerText="Account no found or password wrong. Click Create Account first.";
+}
+function logout(){user=null;localStorage.removeItem('livebid_user');location.reload();}
+function filterCat(c,btn){curCat=c;document.querySelectorAll('.cats button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');loadAuctions()}
+function cardHTML(a){const end=new Date(a.end_time).getTime();const left=Math.max(0,end-Date.now());const h=Math.floor(left/3600000),m=Math.floor(left%3600000/60000);return `<div class="card"><img src="${a.image_url}"><div class="in"><span class="timer">⏳ ${h}h ${m}m left • LIVE</span><h3 style="margin:10px 0 4px">${a.title}</h3><p class="muted" style="margin:0">${(a.description||'').slice(0,80)}</p><div style="display:flex;justify-content:space-between;margin-top:12px"><div><span class="muted">Current Bid</span><div class="price">₦${Number(a.current_price).toLocaleString()}</div></div><span>⭐ 4.9</span></div><div class="bidRow"><input id="bid-${a.id}" type="number" placeholder="₦ Bid higher"><button onclick="placeBid('${a.id}',${a.current_price})">Bid</button></div></div></div>`}
+function loadAuctions(){document.getElementById('totalAuctions').innerText=auctions.length;let f=auctions.filter(a=>{const s=(document.getElementById('search')?.value||'').toLowerCase();const catOk=curCat==='All'||a.cat===curCat;return catOk && a.title.toLowerCase().includes(s)});document.getElementById('list').innerHTML=f.length?f.map(cardHTML).join(''):"<p>No auctions yet</p>";document.getElementById('list-home').innerHTML=auctions.slice(0,6).map(cardHTML).join('');updateHeader();}
+function placeBid(id,current){if(!user) return alert("Login first — click Login / Sign Up for top");const amt=Number(document.getElementById('bid-'+id).value);if(!amt||amt<=current) return alert("Bid must be higher than ₦"+current.toLocaleString());let a=auctions.find(x=>x.id===id);a.current_price=amt;if(!myBids.includes(id)) myBids.unshift(id);save();loadAuctions();alert("✅ You are now highest bidder! ₦"+amt.toLocaleString());}
+function loadMyBids(){if(!user) return document.getElementById('mybids-list').innerHTML="Login first to see your bids";if(!myBids.length) return document.getElementById('mybids-list').innerHTML="You never bid yet. Go bid!";let list=auctions.filter(a=>myBids.includes(a.id));document.getElementById('mybids-list').innerHTML=list.map(cardHTML).join('');}
+function createAuction(){if(!user) return alert("Login first");if(!document.getElementById('title').value||!document.getElementById('price').value) return alert("Put title and price");let na={id:Date.now().toString(),title:document.getElementById('title').value,description:document.getElementById('desc').value||'Neatly used',image_url:document.getElementById('img').value||'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800',current_price:Number(document.getElementById('price').value),cat:document.getElementById('cat').value,end_time:new Date(Date.now()+48*3600000).toISOString()};auctions.unshift(na);save();document.getElementById('createMsg').innerText="✅ Auction don go live!";loadAuctions();go('auctions');}
+updateHeader();loadAuctions();
+</script>
+</body>
+</html>
+
+
+
+
+
